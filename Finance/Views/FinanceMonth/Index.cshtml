@@ -1,0 +1,31 @@
+﻿@model List<Finance.Models.FinanceMonth>
+
+<div class="container">
+    <h1>Finance Months</h1>
+    <a class="btn btn-primary mb-3" asp-action="UpsertFinanceMonth">Create New Finance Month</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Month</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Year</td>
+                    <td>@item.Month.Name</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" asp-action="UpsertFinanceMonth" asp-route-id="@item.Id">Edit</a>
+                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
+                            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                        </form>
+                        <a class="btn btn-info btn-sm" asp-action="Transactions" asp-route-id="@item.Id">Transactions</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

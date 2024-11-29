@@ -1,0 +1,38 @@
+﻿@model List<Finance.Models.Category>
+
+@{
+    ViewData["Title"] = "Category Index";
+}
+
+<h2>Categories</h2>
+
+<!-- Button to open the UpsertCategory view for inserting a new category -->
+<a href="@Url.Action("UpsertCategory", "Category")" class="btn btn-primary">Add New Category</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Id</td>
+                <td>@category.Name</td>
+                <td>
+                    <!-- Button to update category -->
+                    <a href="@Url.Action("UpsertCategory", "Category", new { id = category.Id })" class="btn btn-warning">Edit</a>
+
+                    <!-- Button to delete category -->
+                    <form method="post" action="@Url.Action("Delete", "Category", new { id = category.Id })" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

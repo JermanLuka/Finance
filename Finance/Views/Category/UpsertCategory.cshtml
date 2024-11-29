@@ -1,0 +1,22 @@
+﻿@model Finance.Models.Category
+
+@{
+    ViewData["Title"] = "Upsert Category";
+}
+
+<h2>@(Model.Id == 0 ? "Add New Category" : "Edit Category")</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()  <!-- This is the correct anti-forgery token syntax -->
+
+    <div class="form-group">
+        <label for="Name">Category Name</label>
+        <input type="text" id="Name" name="Name" class="form-control" value="@Model.Name" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        @(Model.Id == 0 ? "Add Category" : "Update Category")
+    </button>
+</form>
+
+<a href="@Url.Action("Index", "Category")" class="btn btn-secondary">Back to List</a>

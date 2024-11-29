@@ -1,0 +1,25 @@
+﻿<div class="container">
+    <h1>Transactions for @ViewBag.MonthName</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Income/Expense</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in Model)
+            {
+                <tr>
+                    <td>@transaction.Category.Name</td>
+                    <td>@transaction.Amount</td>
+                    <td>@transaction.TransactionDate.ToShortDateString()</td>
+                    <td>@(transaction.IsIncome ? "Income" : "Expense")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
