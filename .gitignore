@@ -18,6 +18,13 @@
 /Finance/.vs/Finance/FileContentIndex/deb7e0b6-2695-4387-b9a4-dc06793aa7a7.vsidx
 /Finance/.vs/Finance/FileContentIndex/f30c420e-6555-45c2-b561-b0cd6e5ce4f4.vsidx
 /Finance/.vs/Finance/FileContentIndex/f448e1b4-31b9-4ca6-91e7-cd24399a36e3.vsidx
+/.vs/VSWorkspaceState.json
+/Finance/.vs/Finance/FileContentIndex/41f80d45-efd0-4fe1-a9bd-9bde72644a82.vsidx
+/Finance/.vs/Finance/v17/.futdcache.v2
+/Finance/.vs/Finance/v17/.suo
+/Finance/.vs/Finance/v17/DocumentLayout.json
+/Finance/.vs/ProjectEvaluation/finance.metadata.v7.bin
+/Finance/.vs/ProjectEvaluation/finance.projects.v7.bin
 /Finance/.vs/Finance/FileContentIndex/015ad951-b873-4592-8c8f-abe5d75a4f1b.vsidx
 *.vsidx
 /.vs/Finance/v17/.wsuo
@@ -48,3 +55,10 @@
 /Finance/obj/Debug/net8.0/staticwebassets.build.json
 /Finance/obj/Debug/net8.0/staticwebassets.development.json
 /Finance/obj/Debug/net8.0/staticwebassets.pack.json
+/Finance/obj/Debug/net8.0/Finance.assets.cache
+/Finance/obj/Debug/net8.0/Finance.csproj.AssemblyReference.cache
+/Finance/obj/Debug/net8.0/Finance.GeneratedMSBuildEditorConfig.editorconfig
+/Finance/obj/Finance.csproj.nuget.dgspec.json
+/Finance/obj/Finance.csproj.nuget.g.props
+/Finance/obj/project.assets.json
+/Finance/obj/project.nuget.cache
