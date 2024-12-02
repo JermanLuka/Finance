@@ -42,14 +42,14 @@
 /Finance/.vs/Finance/v17/.suo
 /Finance/.vs/Finance/v17/DocumentLayout.backup.json
 /Finance/.vs/Finance/v17/DocumentLayout.json
-/Finance/bin/Debug/net8.0/appsettings.json
+
 /Finance/bin/Debug/net8.0/Finance.dll
 /Finance/bin/Debug/net8.0/Finance.exe
 /Finance/bin/Debug/net8.0/Finance.pdb
 /Finance/bin/Debug/net8.0/Finance.staticwebassets.runtime.json
 /Finance/obj/Debug/net8.0/ref/Finance.dll
 /Finance/obj/Debug/net8.0/refint/Finance.dll
-/Finance/appsettings.json
+
 /Finance/obj/Debug/net8.0/apphost.exe
 /Finance/obj/Debug/net8.0/Finance.AssemblyInfo.cs
 /Finance/obj/Debug/net8.0/Finance.AssemblyInfoInputs.cache
@@ -74,4 +74,4 @@
 /Finance/obj/project.assets.json
 /Finance/obj/project.nuget.cache
 >>>>>>> 6e76dc437674b1f304b7a65e7b3ce096012af36c
-/Finance/bin/Debug/net8.0/appsettings.Development.json
+
