@@ -6,9 +6,9 @@ namespace Finance.Repository.IRepository
     {
         Task<int> Insert(Transaction transaction);
         Task<bool> Update(Transaction transaction);
-        Task<bool> Delete(int id);
+        Task<bool> Delete(long id);
         Task<List<Transaction>> Query();
         Task<List<Transaction>> QueryByFinanceMonthId(long id);
-        Task<Transaction> Select(int id);
+        Task<Transaction> Select(long id);
     }
 }

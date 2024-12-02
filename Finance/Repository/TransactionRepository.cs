@@ -14,7 +14,7 @@ namespace Finance.Repository
             _context = context;
         } 
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(long id)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Finance.Repository
         {
             try
             {
-                return await _context.Transactions.ToListAsync();
+                return await _context.Transactions.Include(f => f.Category).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace Finance.Repository
         {
             try
             {
-                return await _context.Transactions.Where(f => f.FinanceMonthId == id).ToListAsync();
+                return await _context.Transactions.Include(f => f.Category).Where(f => f.FinanceMonthId == id).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace Finance.Repository
             }
         }
 
-        public async Task<Transaction> Select(int id)
+        public async Task<Transaction> Select(long id)
         {
             try
             {

@@ -1,0 +1,38 @@
+﻿@model Finance.Models.Transaction
+
+<form asp-action="UpsertTransaction" method="post">
+    @if (Model.Id != 0)
+    {
+        <input type="hidden" asp-for="Id" />
+    }
+    <input type="hidden" asp-for="FinanceMonthId" />
+
+    <div class="form-group">
+        <label asp-for="Amount" class="control-label"></label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryId" class="control-label">Category</label>
+        <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.Categories"></select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IsIncome" class="control-label"></label>
+        <input asp-for="IsIncome" type="checkbox" />
+        <span asp-validation-for="IsIncome" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TransactionDate" class="control-label"></label>
+        <input asp-for="TransactionDate" class="form-control" type="date" />
+        <span asp-validation-for="TransactionDate" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary"
+       asp-route-financeMonthId="@Model.FinanceMonthId"
+       asp-route-monthName="@ViewBag.MonthName">Cancel</a>
+</form>
