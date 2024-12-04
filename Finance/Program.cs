@@ -2,6 +2,8 @@ using Finance.Database;
 using Finance.Repository.IRepository;
 using Finance.Repository;
 using Microsoft.EntityFrameworkCore;
+using Finance.Services.IServices;
+using Finance.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IFinanceMonthRepository, FinanceMonthRepository>();
 builder.Services.AddScoped<IMonthRepository, MonthRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 var app = builder.Build();
 

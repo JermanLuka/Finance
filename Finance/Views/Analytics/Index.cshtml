@@ -1,0 +1,232 @@
+﻿
+<div class="container mt-4" id="inputsContainer">
+    <h2 class="text-center mb-4">Generate Charts</h2>
+
+    <!-- Year input -->
+    <div class="mb-3">
+        <label for="yearInput" class="form-label">Year:</label>
+        <input type="number" id="yearInput" class="form-control" value="2024" />
+    </div>
+
+    <!-- Month checkboxes -->
+    <div class="mb-3">
+        <label class="form-label">Select months:</label>
+        <div id="monthCheckboxes" class="d-flex flex-wrap gap-3">
+            <!-- Dynamically generate checkboxes here -->
+        </div>
+    </div>
+
+    <!-- Button to generate charts -->
+    <button id="generateChartsBtn" class="btn btn-success w-100">Generate Charts</button>
+</div>
+
+<div id="chartsContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Function to dynamically create checkboxes for each month
+    function createMonthCheckboxes() {
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        const monthCheckboxesContainer = document.getElementById('monthCheckboxes');
+
+        months.forEach((month, index) => {
+            const checkboxLabel = document.createElement('label');
+            checkboxLabel.textContent = month;
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = index + 1;  // Month value (1 for January, 2 for February, etc.)
+            checkbox.id = `month-${index + 1}`;
+            checkboxLabel.appendChild(checkbox);
+            monthCheckboxesContainer.appendChild(checkboxLabel);
+            monthCheckboxesContainer.appendChild(document.createElement('br')); // Line break after each checkbox
+        });
+    }
+
+    // Function to fetch income and expenses data for a specific month and year
+    async function fetchIncomeVsExpenses(month, year) {
+        try {
+            const response = await fetch(`/analytics/GetIncomeVsExpenses?monthId=${month}&year=${year}`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error fetching income vs expenses:", error);
+            return { income: 0, expenses: 0 };
+        }
+    }
+
+    // Function to fetch category totals for a specific month and year
+    async function fetchCategoryTotals(month, year) {
+        try {
+            const response = await fetch(`/analytics/GetCategoryTotals?monthId=${month}&year=${year}`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error fetching category totals:", error);
+            return [];
+        }
+    }
+
+    // Function to generate charts for a given month and year
+    async function generateMonthCharts(month, year) {
+        try {
+            const categoryData = await fetchCategoryTotals(month, year);
+            const incomeExpenseData = await fetchIncomeVsExpenses(month, year);
+
+            const monthSection = document.createElement('div');
+            monthSection.classList.add('month-section');
+
+            // Add a title for the month (e.g., "October 2024")
+            const monthTitle = document.createElement('h3');
+            monthTitle.textContent = `${getMonthName(month)} ${year}`;
+            monthSection.appendChild(monthTitle);
+
+            // Add a line separator
+            const separatorLine = document.createElement('hr');
+            monthSection.appendChild(separatorLine);
+
+            // Create the Category Chart for this month
+            const categoryChartCanvas = document.createElement('canvas');
+            categoryChartCanvas.id = `categoryChart_${month}_${year}`;
+            monthSection.appendChild(categoryChartCanvas);
+
+            // Create the Income vs Expenses Chart for this month
+            const incomeExpenseChartCanvas = document.createElement('canvas');
+            incomeExpenseChartCanvas.id = `incomeExpenseChart_${month}_${year}`;
+            monthSection.appendChild(incomeExpenseChartCanvas);
+
+            // Add the section to the container
+            document.getElementById('chartsContainer').appendChild(monthSection);
+
+            // Generate both charts
+            await generateCategoryChart(categoryData, categoryChartCanvas);
+            await generateIncomeExpenseChart(incomeExpenseData, incomeExpenseChartCanvas);
+        } catch (error) {
+            console.error("Error generating charts for month:", month, year, error);
+        }
+    }
+
+    // Function to generate the Category Chart
+    async function generateCategoryChart(data, canvas) {
+        const labels = data.map(item => item.categoryName);
+        const totals = data.map(item => item.totalAmount);
+
+        new Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Amount by Category',
+                    data: totals,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.label}: €${context.raw.toFixed(2)}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Function to generate the Income vs Expenses Chart
+    async function generateIncomeExpenseChart(data, canvas) {
+        const income = data.income;
+        const expenses = data.expenses;
+
+        new Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels: ['Income', 'Expenses'],
+                datasets: [{
+                    label: 'Income vs Expenses',
+                    data: [income, expenses],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)', // Income color
+                        'rgba(255, 99, 132, 0.2)'  // Expense color
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.label}: €${context.raw.toFixed(2)}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Helper function to get month name (e.g., "January" for 1)
+    function getMonthName(month) {
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+        return months[month - 1];
+    }
+
+    // Function to generate all charts for the selected year and months
+    async function generateAllChartsForYear() {
+        const year = parseInt(document.getElementById('yearInput').value);
+        const selectedMonths = [];
+
+        // Collect selected months
+        const monthCheckboxes = document.querySelectorAll('#monthCheckboxes input[type="checkbox"]:checked');
+        monthCheckboxes.forEach(checkbox => {
+            selectedMonths.push(parseInt(checkbox.value));  // Get month value (1 for January, etc.)
+        });
+
+        // Clear previous charts
+        document.getElementById('chartsContainer').innerHTML = '';
+
+        // Generate charts for the selected months
+        for (const month of selectedMonths) {
+            await generateMonthCharts(month, year);
+        }
+    }
+
+    // Set up event listener for the button
+    document.getElementById('generateChartsBtn').addEventListener('click', generateAllChartsForYear);
+
+    // Initialize the month checkboxes dynamically
+    createMonthCheckboxes();
+</script>

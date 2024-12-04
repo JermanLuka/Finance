@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Extract Transactions";
+}
+
+<!-- File Upload Form -->
+<form asp-action="ExtractText" method="post" enctype="multipart/form-data">
+    <label for="file">Upload a PDF file:</label>
+    <input type="file" id="file" name="file" accept="application/pdf" required />
+    <button type="submit">Extract Transactions</button>
+</form>
+
+<!-- Display Error Messages -->
+@if (ViewBag.Error != null)
+{
+    <div style="color: red;">@ViewBag.Error</div>
+}
+
+<h2>Uploaded Transactions</h2>
+
+<!-- Display Transactions Table -->
+@if (ViewBag.Transactions != null)
+{
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Transaction Date</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Finance Month ID</th>
+                <th>Category ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in (List<Finance.Models.Transaction>)ViewBag.Transactions)
+            {
+                <tr>
+                    <td>@transaction.TransactionDate?.ToString("yyyy-MM-dd")</td>
+                    <td>@transaction.Amount</td>
+                    <td>@(transaction.IsIncome ? "Income" : "Expense")</td>
+                    <td>@transaction.FinanceMonthId</td>
+                    <td>@transaction.CategoryId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No transactions to display.</p>
+}

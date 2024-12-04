@@ -19,20 +19,45 @@
         <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
 
+   
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TransactionDate" class="control-label"></label>
+        <input asp-for="TransactionDate" class="form-control" type="date" id="transactionDate" />
+        <span asp-validation-for="TransactionDate" class="text-danger"></span>
+    </div>
+
     <div class="form-group">
         <label asp-for="IsIncome" class="control-label"></label>
         <input asp-for="IsIncome" type="checkbox" />
         <span asp-validation-for="IsIncome" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="TransactionDate" class="control-label"></label>
-        <input asp-for="TransactionDate" class="form-control" type="date" />
-        <span asp-validation-for="TransactionDate" class="text-danger"></span>
-    </div>
+    <div id="buttons" class="mt-3">
+        <button type="submit" class="btn btn-success">Save</button>
+        <a asp-action="Index" class="btn btn-secondary"
+           asp-route-financeMonthId="@Model.FinanceMonthId"
+           asp-route-monthName="@ViewBag.MonthName">Cancel</a>
 
-    <button type="submit" class="btn btn-success">Save</button>
-    <a asp-action="Index" class="btn btn-secondary"
-       asp-route-financeMonthId="@Model.FinanceMonthId"
-       asp-route-monthName="@ViewBag.MonthName">Cancel</a>
+    </div>
+    
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the MonthOrdinal from ViewBag (set in the controller)
+        var monthOrdinal = @ViewBag.MonthOrdinal; // This will be a value between 1 and 12 (for Jan-Dec)
+        var year = @ViewBag.Year; // Set to the desired year (you can dynamically set this if needed)
+
+        // Convert MonthOrdinal to the date format YYYY-MM-DD (set to the 1st day of the month)
+        var dateValue = year + "-" + monthOrdinal.toString().padStart(2, '0') + "-01"; // First day of the selected month
+
+        // Set the value of the TransactionDate input to the calculated date
+        document.getElementById("transactionDate").value = dateValue;
+    });
+</script>

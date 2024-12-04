@@ -9,6 +9,7 @@
                 <th>Amount</th>
                 <th>Category</th>
                 <th>Is Income</th>
+                <th>Description</th>
                 <th>Date</th>
                 <th>Actions</th>
             </tr>
@@ -22,6 +23,7 @@
                     <td>@transaction.Amount.ToString("C")</td>
                     <td>@transaction.Category?.Name</td>
                     <td>@(transaction.IsIncome ? "Yes" : "No")</td>
+                    <td>@transaction.Description</td>
                     <td>@transaction.TransactionDate?.ToString("yyyy-MM-dd")</td>
                     <td>
                         <a class="btn btn-warning btn-sm" asp-action="UpsertTransaction" asp-route-id="@transaction.Id">Edit</a>
